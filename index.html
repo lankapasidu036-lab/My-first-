@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelBuddy | Find Local Travel Guides</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 70px; /* Space for bottom nav */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Top Header - Green Color */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: linear-gradient(135deg, #2E8B57 0%, #3CB371 100%);
+            box-shadow: 0 4px 20px rgba(46, 139, 87, 0.3);
+            padding: 15px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: white;
+        }
+
+        .logo span {
+            color: #FFD700;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        }
+
+        .hamburger-menu {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .hamburger-menu:hover {
+            transform: scale(1.1);
+        }
+
+        .hamburger-menu span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: white;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        /* Hero Section with Enhanced Mountain Animation */
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), 
+                        url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            animation: mountainMove 40s infinite alternate ease-in-out;
+        }
+
+        @keyframes mountainMove {
+            0% {
+                background-position: center 30%;
+                background-size: 100% auto;
+            }
+            25% {
+                background-position: center 35%;
+                background-size: 105% auto;
+            }
+            50% {
+                background-position: center 40%;
+                background-size: 110% auto;
+            }
+            75% {
+                background-position: center 35%;
+                background-size: 105% auto;
+            }
+            100% {
+                background-position: center 30%;
+                background-size: 100% auto;
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            font-weight: 300;
+            margin-bottom: 40px;
+            color: #f0f0f0;
+        }
+
+        .search-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 25px 30px;
+            margin: 0 auto;
+            max-width: 700px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .search-label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: white;
+            font-weight: 500;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 5px;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 15px;
+            font-size: 18px;
+            background: transparent;
+            color: #333;
+        }
+
+        .search-box input::placeholder {
+            color: #888;
+        }
+
+        .search-box button {
+            background: linear-gradient(135deg, #2E8B57 0%, #3CB371 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 30px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(46, 139, 87, 0.4);
+        }
+
+        .search-box button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 139, 87, 0.6);
+        }
+
+        /* Intro Section */
+        .intro {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+        }
+
+        .intro h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            position: relative;
+            display: inline-block;
+        }
+
+        .intro h2:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #2E8B57, #3CB371);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .intro p {
+            max-width: 800px;
+            margin: 40px auto 30px;
+            font-size: 18px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        /* How it works section - More Attractive Colors */
+        .how-it-works {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 60px;
+            color: #2c3e50;
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, #2E8B57, #3CB371);
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 30px;
+            border-radius: 20px;
+            background: #f8f9fa;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .step:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(46, 139, 87, 0.15);
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2E8B57 0%, #3CB371 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 32px;
+            color: white;
+            box-shadow: 0 8px 20px rgba(46, 139, 87, 0.3);
+        }
+
+        .step h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .step p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        /* Tours Section - More Colorful */
+        .tours-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+        }
+
+        .tours-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .tour-card {
+            background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .tour-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(46, 139, 87, 0.2);
+        }
+
+        .tour-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, #2E8B57, #3CB371);
+            z-index: 2;
+        }
+
+        .tour-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .tour-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s;
+        }
+
+        .tour-card:hover .tour-image img {
+            transform: scale(1.1);
+        }
+
+        .country-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(46, 139, 87, 0.9);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tour-content {
+            padding: 25px;
+        }
+
+        .tour-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .tour-title span {
+            font-size: 14px;
+            background: #2E8B57;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: 600;
+        }
+
+        .tour-description {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .tour-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .tour-guides {
+            display: flex;
+            align-items: center;
+            background: #f0f9f3;
+            padding: 10px 15px;
+            border-radius: 10px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .tour-guides i {
+            margin-right: 8px;
+            color: #2E8B57;
+        }
+
+        /* Footer - Matching Green Theme */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #1a2530 100%);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column h3 {
+            font-size: 22px;
+            margin-bottom: 25px;
+            color: #3CB371;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(to right, #2E8B57, #3CB371);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+
+        .footer-column p {
+            margin-bottom: 20px;
+            color: #bbb;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: linear-gradient(135deg, #2E8B57 0%, #3CB371 100%);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bbb;
+            font-size: 14px;
+        }
+
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            padding: 10px 0;
+        }
+
+        .bottom-nav-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #888;
+            transition: color 0.3s;
+            flex: 1;
+            padding: 10px 0;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            color: #2E8B57;
+        }
+
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .nav-label {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .steps-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .step {
+                width: 100%;
+                max-width: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 32px;
+            }
+            
+            .hero-subtitle {
+                font-size: 16px;
+            }
+            
+            .search-container {
+                padding: 20px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                background: transparent;
+            }
+            
+            .search-box input {
+                width: 100%;
+                margin-bottom: 15px;
+                text-align: center;
+                background: rgba(255, 255, 255, 0.9);
+                border-radius: 10px;
+            }
+            
+            .search-box button {
+                width: 100%;
+            }
+            
+            .tours-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .bottom-nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Header with Green Color -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Travel<span>Buddy</span></div>
+                <div class="hamburger-menu" id="hamburgerMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section with Animated Mountain Background -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Find Local Travel Guides Worldwide</h1>
+                <p class="hero-subtitle">Connect with verified local guides who know their destinations best</p>
+                
+                <div class="search-container">
+                    <label class="search-label">Which country do you want to visit?</label>
+                    <div class="search-box">
+                        <input type="text" placeholder="Enter country, city or destination...">
+                        <button><i class="fas fa-search"></i> Find Guides</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section class="intro">
+        <div class="container">
+            <h2>Travel Like a Local, Not a Tourist</h2>
+            <p>TravelBuddy connects you with <strong>verified local guides</strong> who offer authentic experiences and insider knowledge. Whether you're exploring mountains, cities, or beaches, our platform helps you <strong>connect with knowledgeable locals</strong> who can show you their home from a unique perspective.</p>
+            <p>Skip the tourist traps and experience destinations with guidance from residents who know the hidden gems, best eateries, and cultural nuances.</p>
+        </div>
+    </section>
+
+    <!-- How it Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How TravelBuddy Works</h2>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-search-location"></i>
+                    </div>
+                    <h3>Find Your Destination</h3>
+                    <p>Search for your travel destination and browse through available local guides.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h3>Connect with Guides</h3>
+                    <p>View guide profiles, specialties, languages spoken, and connect directly.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3>Plan Your Experience</h3>
+                    <p>Work with your chosen guide to create a personalized itinerary.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Travel & Review</h3>
+                    <p>Enjoy your guided experience and share your feedback.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Destinations Section -->
+    <section class="tours-section">
+        <div class="container">
+            <h2 class="section-title">Popular Destinations</h2>
+            <div class="tours-container">
+                <!-- Destination 1 -->
+                <div class="tour-card">
+                    <div class="tour-image">
+                        <img src="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" alt="The Wave Trail, Kanab">
+                        <div class="country-badge"><i class="fas fa-flag"></i> USA</div>
+                    </div>
+                    <div class="tour-content">
+                        <h3 class="tour-title">The Wave Trail, Kanab <span>15 Guides</span></h3>
+                        <p class="tour-description">Explore stunning sandstone formations with local geologists and photographers.</p>
+                        <div class="tour-details">
+                            <div class="tour-guides">
+                                <i class="fas fa-users"></i> 15 Local Guides
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destination 2 -->
+                <div class="tour-card">
+                    <div class="tour-image">
+                        <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Maldives">
+                        <div class="country-badge"><i class="fas fa-flag"></i> Maldives</div>
+                    </div>
+                    <div class="tour-content">
+                        <h3 class="tour-title">Maldives Islands <span>28 Guides</span></h3>
+                        <p class="tour-description">Discover the best snorkeling spots and local island culture.</p>
+                        <div class="tour-details">
+                            <div class="tour-guides">
+                                <i class="fas fa-users"></i> 28 Local Guides
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destination 3 -->
+                <div class="tour-card">
+                    <div class="tour-image">
+                        <img src="https://images.unsplash.com/photo-1596394516093-9b9ca6d70891?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Tian Tan Buddha, Hong Kong">
+                        <div class="country-badge"><i class="fas fa-flag"></i> Hong Kong</div>
+                    </div>
+                    <div class="tour-content">
+                        <h3 class="tour-title">Tian Tan Buddha, Hong Kong <span>42 Guides</span></h3>
+                        <p class="tour-description">Experience Hong Kong's spiritual side with local guides.</p>
+                        <div class="tour-details">
+                            <div class="tour-guides">
+                                <i class="fas fa-users"></i> 42 Local Guides
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destination 4 -->
+                <div class="tour-card">
+                    <div class="tour-image">
+                        <img src="https://images.unsplash.com/photo-1583422409516-2895a77efded?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" alt="Barcelona, Spain">
+                        <div class="country-badge"><i class="fas fa-flag"></i> Spain</div>
+                    </div>
+                    <div class="tour-content">
+                        <h3 class="tour-title">Barcelona, Spain <span>63 Guides</span></h3>
+                        <p class="tour-description">Explore Gaudí's architecture and Catalan traditions with locals.</p>
+                        <div class="tour-details">
+                            <div class="tour-guides">
+                                <i class="fas fa-users"></i> 63 Local Guides
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>TravelBuddy</h3>
+                    <p>Connecting travelers with local guides worldwide for authentic, personalized travel experiences.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <p><a href="#" style="color: #bbb; text-decoration: none;">Home</a></p>
+                    <p><a href="#" style="color: #bbb; text-decoration: none;">Find Guides</a></p>
+                    <p><a href="#" style="color: #bbb; text-decoration: none;">Destinations</a></p>
+                    <p><a href="#" style="color: #bbb; text-decoration: none;">Become a Guide</a></p>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> 123 Adventure Street</p>
+                    <p><i class="fas fa-phone" style="margin-right: 10px;"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope" style="margin-right: 10px;"></i> hello@travelbuddy.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 TravelBuddy. All rights reserved. | Connecting travelers with local guides worldwide.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bottom Navigation Bar (for mobile) -->
+    <nav class="bottom-nav">
+        <div class="bottom-nav-container">
+            <a href="#" class="nav-item active">
+                <i class="fas fa-home nav-icon"></i>
+                <span class="nav-label">Home</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-search nav-icon"></i>
+                <span class="nav-label">Find Guide</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-user-circle nav-icon"></i>
+                <span class="nav-label">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        // Simple interactivity for the hamburger menu
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        
+        hamburgerMenu.addEventListener('click', function() {
+            alert('Menu would open here. In a full website, this would open a navigation menu with options like About, Contact, etc.');
+        });
+        
+        // Search functionality
+        document.querySelector('.search-box button').addEventListener('click', function() {
+            const searchTerm = document.querySelector('.search-box input').value;
+            if(searchTerm.trim() !== '') {
+                alert(`Searching for guides in: "${searchTerm}". You'll see available local guides for this destination.`);
+            } else {
+                document.querySelector('.search-box input').focus();
+                alert("Please enter a country or destination to search for guides.");
+            }
+        });
+        
+        // Enter key also triggers search
+        document.querySelector('.search-box input').addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') {
+                document.querySelector('.search-box button').click();
+            }
+        });
+        
+        // Interactive tour cards
+        document.querySelectorAll('.tour-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+            
+            // Click to show guide details
+            card.addEventListener('click', function() {
+                const destination = this.querySelector('.tour-title').textContent.split(' ')[0];
+                alert(`Showing available local guides for ${destination}.`);
+            });
+        });
+        
+        // Bottom navigation interaction
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Simulate navigation
+                const label = this.querySelector('.nav-label').textContent;
+                if(label === 'Home') {
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                } else if(label === 'Find Guide') {
+                    document.querySelector('.search-box input').focus();
+                } else if(label === 'Profile') {
+                    alert('Profile page would open here.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
